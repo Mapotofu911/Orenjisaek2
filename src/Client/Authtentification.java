@@ -6,7 +6,8 @@ public class Authtentification implements Serializable {
 
     private static final long serialVersionUID = -6425471594092345976L;
 
-    private String login, message;
+    private String login;
+    private Pair<String, String> message;
     private int isConnected = 0;
     private int privateId = -1;
 
@@ -14,6 +15,7 @@ public class Authtentification implements Serializable {
     public Authtentification (String login, int isConnected) {
         this.login = login;
         this.isConnected = isConnected;
+        this.message = new Pair<String, String>(this.login, "");
     }
 
     public String getLogin() {
@@ -25,11 +27,19 @@ public class Authtentification implements Serializable {
     }
 
     public String getMessage() {
-        return message;
+        return message.y;
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.message.y = message;
+    }
+
+    public String getMessageLogin() {
+        return message.x;
+    }
+
+    public void setMessageLogin() {
+        this.message.x = this.login;
     }
 
     public int getIsConnected() {
