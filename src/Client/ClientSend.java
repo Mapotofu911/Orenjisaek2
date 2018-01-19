@@ -28,18 +28,16 @@ public class ClientSend implements Runnable {
                 if (this.client.getAuthtentification().getIsConnected() == 0) {
 
                     synchronized (this.client) {
+                        System.out.println("Bienvenue");
                         System.out.print("Votre login >> ");
-                        this.client.getAuthtentification().setLogin(sc.nextLine());
-
+                        String login = sc.nextLine();
                         System.out.print("Votre password >> ");
-                        String msg = sc.nextLine();
-
-                        this.client.getAuthtentification().setMessage(msg);
-                        this.client.getAuthtentification().setMessage(this.client.getAuthtentification().getMessage());
+                        String password = sc.nextLine();
+                        Pair identifiant = new Pair(login, password);
+                        this.client.getAuthtentification().setPair((String) identifiant.x,(String)  identifiant.y);
                         out.writeObject(this.client.getAuthtentification());
                         out.flush();
-
-                        this.client.getAuthtentification().setIsConnected(-2);
+//Le truc c'est que si ici on met l'isConnected a 1, bah ca sert plus a rien de se connecter vu qu'au final ce sera bon
                     }
                 }
                 else if (this.client.getAuthtentification().getIsConnected() == -1) {
@@ -48,7 +46,7 @@ public class ClientSend implements Runnable {
                 }
             }
 
-            while (true) {
+            while (this.client.getAuthtentification().getIsConnected() == 1) {
                 Thread.yield();
                 try{
                     System.out.print("Votre message >> ");

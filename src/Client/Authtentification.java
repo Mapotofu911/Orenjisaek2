@@ -7,15 +7,14 @@ public class Authtentification implements Serializable {
     private static final long serialVersionUID = -6425471594092345976L;
 
     private String login;
-    private Pair<String, String> message;
+    private Pair<String, String> message = new Pair("","");
     private int isConnected = 0;
     private int privateId = -1;
 
 
-    public Authtentification (String login, int isConnected) {
+    public Authtentification(String login, int isConnected) {
         this.login = login;
         this.isConnected = isConnected;
-        this.message = new Pair<String, String>(this.login, "");
     }
 
     public String getLogin() {
@@ -26,8 +25,8 @@ public class Authtentification implements Serializable {
         this.login = login;
     }
 
-    public String getMessage() {
-        return message.y;
+    public Pair getMessage() {
+        return message;
     }
 
     public void setMessage(String message) {
@@ -56,5 +55,14 @@ public class Authtentification implements Serializable {
 
     public void setPrivateId(int privateId) {
         this.privateId = privateId;
+    }
+
+    public void setPair(String x, String y) {
+        this.message.x = x;
+        this.message.y = y;
+    }
+
+    public Pair<String, String> getPair() {
+        return this.message;
     }
 }

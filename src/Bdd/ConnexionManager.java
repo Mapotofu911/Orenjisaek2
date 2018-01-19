@@ -2,6 +2,10 @@ package Bdd;
 
 import Model.User;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 
 public class ConnexionManager {
@@ -13,6 +17,21 @@ public class ConnexionManager {
     private static String urlstring;
 
     public static Connection getConnection() {
+        BufferedReader br = null;
+        String line;
+
+        try {
+            br = new BufferedReader(new FileReader("./databaseinfo.txt"));
+            while ((line = br.readLine()) != null) {
+                password = line;
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         try {
             Class.forName(driverName);
             try {
@@ -44,29 +63,29 @@ public class ConnexionManager {
 
             //On affiche le nom des colonnes
 
-            for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-                System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
-
-            System.out.println("\n**********************************");
+//            for(int i = 1; i <= resultMeta.getColumnCount(); i++)
+//                System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+//
+//            System.out.println("\n**********************************");
 
             if (!rs.isBeforeFirst())
             {
                 user.setId(-1);
-                System.out.println("No Data");
+               // System.out.println("No Data");
             }
             else
             {
                 while(rs.next()){
                     for(int i = 1; i <= resultMeta.getColumnCount(); i++)
                     {
-                        System.out.print("\t" + rs.getObject(i).toString() + "\t |");
+                       // System.out.print("\t" + rs.getObject(i).toString() + "\t |");
                         user.setId(Integer.parseInt(rs.getString("id")));
                         user.setLogin(rs.getString("login"));
                         user.setPassword(rs.getString("motdepasse"));
                         user.setAvatar(rs.getString("avatar"));
                         user.setColor(rs.getString("couleur"));
                     }
-                    System.out.println("\n---------------------------------");
+                  //  System.out.println("\n---------------------------------");
                 }
             }
 

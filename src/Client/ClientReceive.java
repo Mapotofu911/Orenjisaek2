@@ -24,7 +24,7 @@ public class ClientReceive implements Runnable {
         }
 
         while (isActive) {
-            String message = null;
+            Pair message = null;
             try {
 
                 if (this.client.getAuthtentification().getIsConnected() != 1) {
@@ -33,16 +33,17 @@ public class ClientReceive implements Runnable {
                     }
                 }
                 else {
-                    this.client.getAuthtentification().setMessage(((Authtentification) in.readObject()).getMessage());
+                   // this.client.getAuthtentification().setMessage();
                 }
-                message = this.client.getAuthtentification().getMessage();
+                message.x = this.client.getAuthtentification().getLogin();
+                message.y = this.client.getAuthtentification().getMessage();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
 
             }
 
             if (this.client.getAuthtentification() != null) {
-                System.out.println("\nMessage recu de " + this.client.getAuthtentification().getLogin()+ " : " + message);
+            //    System.out.println("\nMessage recu de " + message.x+ " : " + message.y);
             } else {
                 isActive = false;
             }
